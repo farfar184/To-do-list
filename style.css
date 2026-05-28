@@ -1,0 +1,312 @@
+:root {
+    --bg-app: #ffffff;
+    --bg-sidebar: #dcf1fc;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --primary: #367c7e;      
+    --border: #e2e8f0;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+
+[data-theme="dark"] {
+    --bg-app: #0f172a;
+    --bg-sidebar: #1e293b;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+.dashboard-wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    width: 100%;
+    max-width: 1050px;
+    min-height: 80hv;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* --- KOLOM KIRI (SIDEBAR) --- */
+.sidebar {
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+}
+
+.brand h2 {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+}
+.brand p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.input-card h3, .stats-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    font-size: 0.85rem;
+    outline: none;
+}
+input:focus, select:focus {
+    border-color: var(--primary);
+}
+
+#add-task-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 5px;
+}
+#add-task-btn:hover { opacity: 0.9; }
+
+/* Statistik Grid */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.stat-box {
+    background-color: var(--bg-app);
+    padding: 12px 5px;
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+.stat-box .num { font-size: 1.1rem; font-weight: 700; display: block; }
+.stat-box .lbl { font-size: 0.7rem; color: var(--text-muted); }
+.stat-box.active-box .num { color: var(--primary); }
+.stat-box.done-box .num { color: var(--success); }
+
+
+/* --- KOLOM KANAN (MAIN CONTENT) --- */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-app);
+}
+
+.top-bar {
+    background-color: var(--bg-sidebar);
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.filters { display: flex; gap: 5px; }
+.filter-btn {
+    padding: 8px 14px;
+    border: none;
+    background: transparent;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+}
+.filter-btn.active {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+}
+[data-theme="dark"] .filter-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.utility-actions { display: flex; gap: 8px; }
+.util-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border: 1px solid var(--border);
+    background-color: var(--bg-sidebar);
+    color: var(--text-main);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+}
+.util-btn.danger { color: var(--danger); border-color: var(--danger); }
+.util-btn.danger:hover { background-color: var(--danger); color: white; }
+
+/* Area List */
+.task-area {
+    padding: 25px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+#task-list { list-style: none; }
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding-top: 60px;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Kartu Item Tugas */
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--bg-sidebar);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.task-item.completed { opacity: 0.55; }
+.task-item.completed .task-text { text-decoration: line-through; }
+
+.task-left { display: flex; align-items: center; gap: 15px; }
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+.task-details { display: flex; flex-direction: column; }
+.task-text { font-weight: 600; font-size: 0.95rem; }
+.task-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+.task-right { display: flex; align-items: center; gap: 8px; }
+.badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.badge.cat { background-color: var(--border); color: var(--text-main); }
+.badge.p-Tinggi { background-color: #fee2e2; color: var(--danger); }
+.badge.p-Sedang { background-color: #fef3c7; color: var(--warning); }
+.badge.p-Rendah { background-color: #d1fae5; color: var(--success); }
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding-left: 10px;
+}
+.delete-btn:hover { color: var(--danger); }
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .dashboard-wrapper {
+        grid-template-columns: 1fr; 
+        height: auto;
+        max-width: 100%;
+    }
+
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border); 
+        padding: 20px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .filters {
+        width: 100%;
+        overflow-x: auto; 
+        white-space: nowrap;
+        padding-bottom: 5px;
+    }
+
+    .task-area {
+        padding: 15px;
+    }
+
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .task-right {
+        width: 100%;
+        justify-content: flex-end;
+        border-top: 1px dashed var(--border);
+        padding-top: 10px;
+    }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farah To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>Farah To-Do List</h2>
+                <p>Kelola Tugas Farah</p>
+            </div>
+
+            <div class="input-card">
+                <h3>Tambah Tugas Baru</h3>
+                <div class="form-control">
+                    <label>Nama Tugas</label>
+                    <input type="text" id="task-input" placeholder="Tulis Rencana">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-control">
+                        <label>Prioritas</label>
+                        <select id="priority-input">
+                            <option value="Rendah">Rendah</option>
+                            <option value="Sedang" selected>Sedang</option>
+                            <option value="Tinggi">Tinggi</option>
+                        </select>
+                    </div>
+                    <div class="form-control">
+                        <label>Kategori</label>
+                        <select id="category-input">
+                            <option value="Pekerjaan">Pekerjaan</option>
+                            <option value="Pribadi">Pribadi</option>
+                            <option value="Kuliah">Kuliah</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-control">
+                    <label>Deadline</label>
+                    <input type="datetime-local" id="deadline-input">
+                </div>
+
+                <button id="add-task-btn">Simpan Tugas</button>
+            </div>
+
+            <div class="stats-card">
+                <h3>Ringkasan Tugas</h3>
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <span id="total-tasks" class="num">0</span>
+                        <span class="lbl">Total</span>
+                    </div>
+                    <div class="stat-box active-box">
+                        <span id="active-tasks" class="num">0</span>
+                        <span class="lbl">Aktif</span>
+                    </div>
+                    <div class="stat-box done-box">
+                        <span id="completed-tasks" class="num">0</span>
+                        <span class="lbl">Selesai</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Semua</button>
+                    <button class="filter-btn" data-filter="active">Aktif</button>
+                    <button class="filter-btn" data-filter="completed">Selesai</button>
+                    <button class="filter-btn" data-filter="today">Hari Ini</button>
+                    <button class="filter-btn" data-filter="high">Prioritas Tinggi</button>
+                </div>
+                <div class="utility-actions">
+                    <button id="theme-toggle-btn" class="util-btn">🌙 Mode</button>
+                    <button id="clear-completed-btn" class="util-btn danger">Bersihkan</button>
+                </div>
+            </header>
+
+            <section class="task-area">
+                <ul id="task-list">
+                    <li class="empty-state">Belum ada tugas di dalam daftar ini.</li>
+                </ul>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
