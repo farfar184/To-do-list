@@ -47,8 +47,8 @@ body {
     display: grid;
     grid-template-columns: 320px 1fr;
     width: 100%;
-    max-width: 1050px;
-    min-height: 80hv;
+    max-width: 100%;
+    min-height: 80vh;
     background-color: var(--bg-card);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
@@ -135,7 +135,7 @@ input:focus, select:focus {
 /* Statistik Grid */
 .stat-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 8px;
 }
 .stat-box {
@@ -263,6 +263,30 @@ input:focus, select:focus {
 }
 .delete-btn:hover { color: var(--danger); }
 @media (max-width: 768px) {
+    .top-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        padding: 15px;
+        width: 100%; /* Pastikan lebarnya penuh */
+        overflow: hidden; 
+    }
+
+    .filters {
+        display: flex;
+        width: 100%;
+        overflow-x: auto; /* Memungkinkan menu filter digeser ke samping jika penuh */
+        white-space: nowrap; /* Mencegah tombol filter turun berantakan */
+        padding-bottom: 8px;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch; /* Biar scroll di HP terasa lancar */
+    }
+    
+    /* Menyembunyikan batang scrollbar agar filter terlihat bersih di HP */
+    .filters::-webkit-scrollbar {
+        display: none;
+    }
     body {
         padding: 10px;
     }
