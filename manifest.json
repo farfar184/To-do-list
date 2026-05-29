@@ -1,11 +1,11 @@
 {
   "name": "Farah To-Do List",
-  "short_name": "Farah Todo",
-  "start_url": ".",
+  "short_name": "Farah To-Do List",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#367c7e",
-  "orientation": "portrait"
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "download (20).jpg",
