@@ -5,16 +5,22 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('Gagal mendaftarkan aplikasi', err));
   });
 }
+
 let tasks = [];
 let currentFilter = 'all';
 
+// --- PENGAMBILAN ELEMEN SECARA AMAN ---
 const taskInput = document.getElementById('task-input');
 const priorityInput = document.getElementById('priority-input');
 const categoryInput = document.getElementById('category-input');
 const deadlineInput = document.getElementById('deadline-input');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+// Mencari tombol tema berdasarkan ID apa saja yang tersedia di HTML
+const themeToggleBtn = document.getElementById('theme-toggle') || document.getElementById('theme-toggle-btn');
+const themeText = document.getElementById('theme-text');
+
 const clearCompletedBtn = document.getElementById('clear-completed-btn');
 const filterButtons = document.querySelectorAll('.filter-btn');
 
@@ -22,9 +28,52 @@ const totalTasksEl = document.getElementById('total-tasks');
 const activeTasksEl = document.getElementById('active-tasks');
 const completedTasksEl = document.getElementById('completed-tasks');
 
-addTaskBtn.addEventListener('click', addTask);
 
+// --- PENGATURAN TEMA (DARK / LIGHT MODE) ---
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        if (document.body.getAttribute('data-theme') === 'dark') {
+            document.body.removeAttribute('data-theme');
+            if (themeText) themeText.innerText = 'Dark Mode'; 
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.setAttribute('data-theme', 'dark');
+            if (themeText) themeText.innerText = 'Light Mode'; 
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+}
+
+// Cek memori tema saat pertama kali web dibuka
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    if (themeText) themeText.innerText = 'Light Mode';
+} else {
+    document.body.removeAttribute('data-theme');
+    if (themeText) themeText.innerText = 'Dark Mode';
+}
+
+
+// --- EVENT LISTENERS TUGAS ---
+if (addTaskBtn) {
+    addTaskBtn.addEventListener('click', addTask);
+}
+
+if (clearCompletedBtn) {
+    clearCompletedBtn.addEventListener('click', () => {
+        if (confirm('Hapus semua tugas yang selesai?')) {
+            tasks = tasks.filter(task => !task.completed);
+            renderTasks();
+        }
+    });
+}
+
+
+// --- FUNGSI MANAJEMEN TUGAS ---
 function addTask() {
+    if (!taskInput || !priorityInput || !categoryInput || !deadlineInput) return;
+
     const text = taskInput.value.trim();
     const priority = priorityInput.value;
     const category = categoryInput.value;
@@ -60,6 +109,7 @@ function addTask() {
 }
 
 function renderTasks() {
+    if (!taskList) return;
     taskList.innerHTML = '';
 
     const filteredTasks = tasks.filter(task => {
@@ -76,7 +126,7 @@ function renderTasks() {
     });
 
     if (filteredTasks.length === 0) {
-        taskList.innerHTML = `<li class="empty-state">Belum ada tugas di dalam daftar ini.</li>`;
+        taskList.innerHTML = `<li class="empty-state">Gada tugas, saatnya istirahat yeayy.</li>`;
         updateStats();
         return;
     }
@@ -118,98 +168,77 @@ window.deleteTask = function(id) {
     renderTasks();
 };
 
-clearCompletedBtn.addEventListener('click', () => {
-    if (confirm('Hapus semua tugas yang selesai?')) {
-        tasks = tasks.filter(task => !task.completed);
-        renderTasks();
-    }
-});
-
-filterButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        currentFilter = e.target.getAttribute('data-filter');
-        renderTasks();
+if (filterButtons) {
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.getAttribute('data-filter');
+            renderTasks();
+        });
     });
-});
+}
 
 function updateStats() {
     const total = tasks.length;
     const active = tasks.filter(t => !t.completed).length;
     const completed = total - active;
 
-    totalTasksEl.textContent = total;
-    activeTasksEl.textContent = active;
-    completedTasksEl.textContent = completed;
+    if (totalTasksEl) totalTasksEl.textContent = total;
+    if (activeTasksEl) activeTasksEl.textContent = active;
+    if (completedTasksEl) completedTasksEl.textContent = completed;
 }
 
-themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeToggleBtn.textContent = '🌙 Mode';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeToggleBtn.textContent = '☀️ Mode';
-    }
-});
+
+// --- FUNGSI ALARM DEADLINE ---
 function bunyikanAlarm() {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
 
-    oscillator.type = 'sine'; // jenis suara
-    oscillator.frequency.value = 800; // tinggi nada (Hz)
-    gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // volume suara
+        oscillator.type = 'sine'; 
+        oscillator.frequency.value = 800; 
+        gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); 
 
-    // Bunyikan suara bleep putus-putus sebanyak 3 kali
-    oscillator.start();
-    setTimeout(() => { oscillator.stop(); }, 150);
-    
-    setTimeout(() => {
-        const osc2 = audioCtx.createOscillator();
-        osc2.connect(gainNode);
-        osc2.type = 'sine';
-        osc2.frequency.value = 800;
-        osc2.start();
-        setTimeout(() => { osc2.stop(); }, 150);
-    }, 300);
+        oscillator.start();
+        setTimeout(() => { oscillator.stop(); }, 150);
+        
+        setTimeout(() => {
+            const osc2 = audioCtx.createOscillator();
+            osc2.connect(gainNode);
+            osc2.type = 'sine';
+            osc2.frequency.value = 800;
+            osc2.start();
+            setTimeout(() => { osc2.stop(); }, 150);
+        }, 300);
+    } catch (e) {
+        console.log("AudioContext belum diizinkan oleh browser");
+    }
 }
 
-// Set variabel untuk mencatat tugas apa saja yang sudah dibunyikan alarmnya agar tidak berisik berulang kali
 let alarmTerpicu = {};
 
 function periksaDeadlineOtomatis() {
     const sekarang = new Date();
 
     tasks.forEach(task => {
-        // Abaikan jika tugas sudah selesai dicentang atau tidak punya deadline
         if (task.completed || !task.deadline) return;
 
         const waktuDeadline = new Date(task.deadline);
-        const selisihWaktu = waktuDeadline - sekarang; // hasil dalam milidetik
+        const selisihWaktu = waktuDeadline - sekarang; 
 
-        // Konversi selisih ke satuan menit
         const sisaMenit = Math.floor(selisihWaktu / 1000 / 60);
 
-        // LOGIKA: Jika sisa waktu antara 0 sampai 5 menit, DAN belum pernah bunyi alarm untuk tugas ini
         if (sisaMenit >= 0 && sisaMenit <= 5 && !alarmTerpicu[task.id]) {
-            
-            // 1. Bunyikan Suara Alarm
             bunyikanAlarm();
-
-            // 2. Munculkan Notifikasi Box di Layar Browser
             alert(`⚠️ ALARM DEADLINE!\nTugas: "${task.text}" harus segera diselesaikan dalam waktu ${sisaMenit} menit lagi!`);
-
-            // Tandai tugas ini sudah dibunyikan alarmnya agar tidak berbunyi terus setiap detik
             alarmTerpicu[task.id] = true;
         }
     });
 }
 
-// Jalankan fungsi pemeriksaan ini secara otomatis setiap 30 detik sekali
 setInterval(periksaDeadlineOtomatis, 30000);
