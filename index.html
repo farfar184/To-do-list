@@ -19,14 +19,14 @@
         <aside class="sidebar">
             <div class="brand">
                 <h2>Farah To-Do List</h2>
-                <p>Kelola Tugas Farah</p>
+                <p>Tugas Lagi Tugas Lagi</p>
             </div>
 
             <div class="input-card">
-                <h3>Tambah Tugas Baru</h3>
+                <h3>Apa yang harus dikerjain</h3>
                 <div class="form-control">
                     <label>Nama Tugas</label>
-                    <input type="text" id="task-input" placeholder="Tulis Rencana">
+                    <input type="text" id="task-input" placeholder="Tulis Tugas">
                 </div>
                 
                 <div class="form-row">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="stats-card">
-                <h3>Ringkasan Tugas</h3>
+                <h3>Tugas yang menumpuk</h3>
                 <div class="stat-grid">
                     <div class="stat-box">
                         <span id="total-tasks" class="num">0</span>
@@ -85,21 +85,22 @@
                     <button class="filter-btn" data-filter="today">Hari Ini</button>
                     <button class="filter-btn" data-filter="high">Prioritas Tinggi</button>
                 </div>
-                <div class="utility-actions">
-                    <button id="theme-toggle-btn" class="util-btn">🌙 Mode</button>
-                    <button id="clear-completed-btn" class="util-btn danger">Bersihkan</button>
+               <div class="utility-actions">
+                    <button id="theme-toggle" class="util-btn">
+                        <span id="theme-text">Dark Mode</span>
+                    </button> <button id="clear-completed-btn" class="util-btn danger">Hilangkan Tugas</button>
                 </div>
             </header>
 
             <section class="task-area">
                 <ul id="task-list">
-                    <li class="empty-state">Belum ada tugas di dalam daftar ini.</li>
+                    <li class="empty-state">Gada tugas, saatnya istirahat yeayy.</li>
                 </ul>
             </section>
         </main>
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2.0"></script>
 </body>
 </html>
