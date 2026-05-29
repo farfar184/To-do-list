@@ -92,12 +92,15 @@ body {
     gap: 5px;
     margin-bottom: 12px;
 }
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.form-row, .form-row, [style*="display: flex"]{
+    display: flex;
+    flex-direction: column; /* Memaksa input bertumpuk ke bawah di HP */
     gap: 10px;
+    width: 100%;
 }
-
+.form-group {
+    width: 100% !important;
+}
 label {
     font-size: 0.75rem;
     font-weight: 600;
@@ -135,8 +138,13 @@ input:focus, select:focus {
 /* Statistik Grid */
 .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr))!important;
+    gap: 10px;
+    width: 100%;
+}
+.stat-card {
+    min-width: 0; /* Mencegah kotak statistik meluber keluar layar */
+    padding: 10px;
 }
 .stat-box {
     background-color: var(--bg-app);
@@ -274,16 +282,18 @@ input:focus, select:focus {
     }
 
     .filters {
-        display: flex;
-        width: 100%;
-        overflow-x: auto; /* Memungkinkan menu filter digeser ke samping jika penuh */
-        white-space: nowrap; /* Mencegah tombol filter turun berantakan */
-        padding-bottom: 8px;
+        display: flex !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
         gap: 8px;
-        -webkit-overflow-scrolling: touch; /* Biar scroll di HP terasa lancar */
+        padding-bottom: 5px;
+    }
+    * {
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
-    /* Menyembunyikan batang scrollbar agar filter terlihat bersih di HP */
     .filters::-webkit-scrollbar {
         display: none;
     }
