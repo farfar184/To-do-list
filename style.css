@@ -4,7 +4,7 @@
     --bg-card: #ffffff;
     --text-main: #1e293b;
     --text-muted: #64748b;
-    --primary: #367c7e;      
+    --primary: #367c7e;
     --border: #e2e8f0;
     --danger: #ef4444;
     --success: #10b981;
@@ -24,6 +24,11 @@
     --shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
 }
 
+html {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -40,14 +45,15 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    overflow-x: hidden;
+    max-width: 100%;
 }
-
 
 .dashboard-wrapper {
     display: grid;
     grid-template-columns: 320px 1fr;
     width: 100%;
-    max-width: 1200px;  
+    max-width: 1200px;
     min-height: 80vh;
     background-color: var(--bg-card);
     border-radius: var(--radius-lg);
@@ -63,6 +69,7 @@ body {
     flex-direction: column;
     gap: 25px;
     overflow-y: auto;
+    min-width: 0;
 }
 
 .brand h2 {
@@ -90,16 +97,22 @@ body {
     flex-direction: column;
     gap: 5px;
     margin-bottom: 12px;
+    width: 100%;
 }
-.form-row, .form-row, [style*="display: flex"]{
+
+.form-row {
     display: flex;
-    flex-direction: column; /* Memaksa input bertumpuk ke bawah di HP */
+    flex-direction: row;
     gap: 10px;
     width: 100%;
 }
-.form-group {
-    width: 100% !important;
+
+.form-row .form-control {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
 }
+
 label {
     font-size: 0.75rem;
     font-weight: 600;
@@ -115,6 +128,7 @@ input, select {
     color: var(--text-main);
     font-size: 0.85rem;
     outline: none;
+    min-width: 0;
 }
 input:focus, select:focus {
     border-color: var(--primary);
@@ -134,34 +148,30 @@ input:focus, select:focus {
 }
 #add-task-btn:hover { opacity: 0.9; }
 
-/* Statistik Grid */
 .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr))!important;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     width: 100%;
 }
-.stat-card {
-    min-width: 0; /* Mencegah kotak statistik meluber keluar layar */
-    padding: 10px;
-}
+
 .stat-box {
     background-color: var(--bg-app);
     padding: 12px 5px;
     border-radius: var(--radius-md);
     text-align: center;
+    min-width: 0;
 }
 .stat-box .num { font-size: 1.1rem; font-weight: 700; display: block; }
 .stat-box .lbl { font-size: 0.7rem; color: var(--text-muted); }
 .stat-box.active-box .num { color: var(--primary); }
 .stat-box.done-box .num { color: var(--success); }
 
-
-/* --- KOLOM KANAN (MAIN CONTENT) --- */
 .main-content {
     display: flex;
     flex-direction: column;
     background-color: var(--bg-app);
+    min-width: 0;
 }
 
 .top-bar {
@@ -183,9 +193,10 @@ input:focus, select:focus {
     color: var(--text-muted);
     cursor: pointer;
     border-radius: var(--radius-md);
+    white-space: nowrap;
 }
 .filter-btn.active {
-    background-color: var(--primary-light);
+    background-color: rgba(54, 124, 126, 0.1);
     color: var(--primary);
     font-weight: 600;
 }
@@ -203,11 +214,11 @@ input:focus, select:focus {
     color: var(--text-main);
     border-radius: var(--radius-md);
     cursor: pointer;
+    white-space: nowrap;
 }
 .util-btn.danger { color: var(--danger); border-color: var(--danger); }
 .util-btn.danger:hover { background-color: var(--danger); color: white; }
 
-/* Area List */
 .task-area {
     padding: 25px;
     flex: 1;
@@ -223,7 +234,6 @@ input:focus, select:focus {
     font-size: 0.9rem;
 }
 
-/* Kartu Item Tugas */
 .task-item {
     display: flex;
     justify-content: space-between;
@@ -237,23 +247,25 @@ input:focus, select:focus {
 .task-item.completed { opacity: 0.55; }
 .task-item.completed .task-text { text-decoration: line-through; }
 
-.task-left { display: flex; align-items: center; gap: 15px; }
+.task-left { display: flex; align-items: center; gap: 15px; min-width: 0; }
 .task-checkbox {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
     accent-color: var(--primary);
     cursor: pointer;
 }
-.task-details { display: flex; flex-direction: column; }
+.task-details { display: flex; flex-direction: column; min-width: 0; }
 .task-text { font-weight: 600; font-size: 0.95rem; }
 .task-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
-.task-right { display: flex; align-items: center; gap: 8px; }
+.task-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .badge {
     font-size: 0.7rem;
     padding: 4px 8px;
     border-radius: 6px;
     font-weight: 600;
+    white-space: nowrap;
 }
 .badge.cat { background-color: var(--border); color: var(--text-main); }
 .badge.p-Tinggi { background-color: #fee2e2; color: var(--danger); }
@@ -267,96 +279,80 @@ input:focus, select:focus {
     font-size: 1rem;
     cursor: pointer;
     padding-left: 10px;
+    flex-shrink: 0;
 }
 .delete-btn:hover { color: var(--danger); }
 @media (max-width: 768px) {
     html, body {
-        overflow-x: hidden;
-        width: 100%;
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     body {
-        padding: 0;
-        align-items: flex-start;
+        padding: 0 !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
     }
 
     .dashboard-wrapper {
         display: flex !important;
         flex-direction: column !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
         border-radius: 0 !important;
-        overflow-x: hidden !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
     }
 
     .sidebar {
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--border);
-        overflow-x: hidden;
+        border-bottom: 1px solid var(--border) !important;
+        padding: 20px 16px !important;
     }
 
     .main-content {
         width: 100% !important;
         max-width: 100% !important;
-        overflow-x: hidden;
-    }
-
-    input, select, textarea, button {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
+        min-width: 0 !important;
     }
 
     .form-row {
         flex-direction: column !important;
-        width: 100% !important;
     }
 
     .top-bar {
         flex-direction: column !important;
         align-items: flex-start !important;
-        gap: 10px;
+        gap: 10px !important;
         padding: 12px 16px !important;
-        width: 100% !important;
-        overflow-x: hidden;
     }
 
     .filters {
-        display: flex !important;
-        flex-direction: row !important;
         overflow-x: auto !important;
-        white-space: nowrap !important;
         width: 100% !important;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
     }
 
     .utility-actions {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 8px;
-        width: 100%;
+        width: 100% !important;
     }
 
     .util-btn {
-        flex: 1;
-    }
-
-    .stat-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        width: 100% !important;
+        flex: 1 !important;
     }
 
     .task-area {
         padding: 16px !important;
-        width: 100% !important;
     }
 
     .task-item {
-        flex-wrap: wrap;
-        gap: 8px;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
     }
 }
