@@ -1,4 +1,4 @@
-const CACHE_NAME = 'farah-todo-cache-v6';
+const CACHE_NAME = 'farah-todo-cache-v7';
 
 const assetsToCache = [
   './',
