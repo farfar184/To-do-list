@@ -31,7 +31,9 @@ const completedTasksEl = document.getElementById('completed-tasks');
 
 async function loadTasksFromCloud() {
     try {
-        const response = await fetch(DATABASE_URL);
+        const response = await fetch(DATABASE_URL, {
+            cache: 'no-store'  // ← tambahkan ini
+        });
         const data = await response.json();
         tasks = data || [];
         renderTasks();
