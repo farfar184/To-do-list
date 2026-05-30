@@ -1,8 +1,9 @@
-const CACHE_NAME = 'workspace-todo-v1';
-const assets = [
+const CACHE_NAME = 'Farah-Todo-Cache-v3';
+const assetsToCache = [
+  './',                  // Merekam folder utama saat dibuka otomatis
   'index.html',
-  'style.css',
-  'script.js',
+  'style.css?v=9.9',     // Sesuaikan dengan teks tanda tanya yang tertulis di index.html kamu
+  'script.js?v=2.0',    // Sesuaikan dengan teks tanda tanya script di index.html kamu
   'manifest.json'
 ];
 
