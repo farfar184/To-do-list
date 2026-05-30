@@ -158,7 +158,7 @@ function renderTasks() {
     });
 
     if (filteredTasks.length === 0) {
-        taskList.innerHTML = `<li class="empty-state">Belum ada tugas di dalam daftar ini.</li>`;
+        taskList.innerHTML = `<li class="empty-state">Gada tugas, saatnya istirahat yeayy.</li>`;
         updateStats();
         return;
     }
