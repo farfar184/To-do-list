@@ -6,7 +6,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-let tasks = [];
+let tasks = JSON.parse(localStorage.getItem('farah_tasks')) || [];
 let currentFilter = 'all';
 
 // --- PENGAMBILAN ELEMEN SECARA AMAN ---
@@ -109,6 +109,7 @@ function addTask() {
 }
 
 function renderTasks() {
+    localStorage.setItem('farah_tasks', JSON.stringify(tasks));
     if (!taskList) return;
     taskList.innerHTML = '';
 
@@ -242,3 +243,4 @@ function periksaDeadlineOtomatis() {
 }
 
 setInterval(periksaDeadlineOtomatis, 30000);
+renderTasks();
