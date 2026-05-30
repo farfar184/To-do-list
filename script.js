@@ -227,4 +227,4 @@ function updateStats() {
 loadTasksFromCloud();
 
 // Otomatis cek pembaruan data dari cloud setiap 10 detik sekali (Biar sinkron otomatis)
-setInterval(loadTasksFromCloud, 30000);
+setInterval(loadTasksFromCloud, 3000);
